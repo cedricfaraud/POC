@@ -1,0 +1,42 @@
+<div class="login-container" fxLayout="column" fxLayoutAlign="center center">
+  <mat-card>
+    <h2>Connexion</h2>
+    <mat-form-field appearance="fill">
+      <mat-label>Nom d'utilisateur ou Email</mat-label>
+      <input
+        matInput
+        [(ngModel)]="username"
+        (ngModelChange)="validateLogin()"
+        placeholder="Entrez votre nom d'utilisateur ou email"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Mot de passe</mat-label>
+      <input
+        matInput
+        [(ngModel)]="password"
+        (ngModelChange)="validatePassword()"
+        type="password"
+        placeholder="Entrez votre mot de passe 2"
+        required
+      />
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!isLoginValid() || !isPasswordValid()"
+      (click)="login()"
+    >
+      <mat-icon>login</mat-icon> Se connecter
+    </button>
+    <!--<p *ngIf="loginError" class="error">{{ loginError }}</p>-->
+    <mat-error *ngIf="password && passwordError">{{ passwordError }}</mat-error>
+    <mat-error *ngIf="username && loginError">{{ loginError }}</mat-error>
+    <button mat-raised-button color="accent" (click)="openChat()">
+      <mat-icon>help_outline</mat-icon> Aide
+    </button>
+  </mat-card>
+</div>
