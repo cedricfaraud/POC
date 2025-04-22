@@ -73,7 +73,7 @@ export class LoginComponent {
       return;
     }
 
-    const loginData =  { email: this.username, password: this.password };
+    const loginData = { email: this.email, password: this.password };
 
     this.authService
       .login(loginData)
