@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,24 +15,17 @@ import { AppComponent } from './app.component';
 import { ChatComponent } from './features/chat/chat.component';
 import { LoginComponent } from './features/login/login.component';
 import { YcywComponent } from './features/ycyw/ycyw.component';
-@NgModule({
-  declarations: [AppComponent, LoginComponent, ChatComponent, YcywComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    MatListModule,
-    FlexLayoutModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [AppComponent, LoginComponent, ChatComponent, YcywComponent],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatButtonModule,
+        MatListModule,
+        FlexLayoutModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {}
