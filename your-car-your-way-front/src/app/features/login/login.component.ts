@@ -2,90 +2,70 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs/internal/observable/of';
 import { catchError, tap } from 'rxjs/operators';
+import { AuthSuccess } from 'src/app/interfaces/authSuccess.interface';
+import { LoginRequest } from 'src/app/interfaces/LoginRequest.interface';
 import { AuthService } from 'src/app/services/auth.service';
 
+const loginErrorMessage =
+  'Le login doit être un email valide et contenir au moins 6 caractères.';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html', // Fichier HTML séparé.
   styleUrls: ['./login.component.sass'], // Fichier SCSS.
 })
 export class LoginComponent {
-  username: string = ''; // Nom d'utilisateur saisi par l'utilisateur.
+  email: string = ''; // email saisi par l'utilisateur.
   password: string = ''; // Mot de passe saisi par l'utilisateur.
   loginError: string = '';
   passwordError: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  validateLogin() {
-    const minLength = 6;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!this.username) {
-      this.loginError = '';
-    } else if (
-      this.username.length < minLength &&
-      !emailRegex.test(this.username)
-    ) {
-      this.loginError =
-        'Le login doit être un email valide ou contenir au moins 6 caractères.';
-    } else {
-      this.loginError = '';
-    }
-  }
-
-  validatePassword() {
+  getPasswordError(): string {
     if (!this.password) {
-      this.passwordError = 'pas de mdp ';
-      return;
+      return '';
     }
-
     if (this.password.length < 8) {
-      this.passwordError =
-        'Le mot de passe doit contenir au moins 8 caractères.';
-      return;
+      return 'Le mot de passe doit contenir au moins 8 caractères.';
     }
-
     if (!/[A-Z]/.test(this.password)) {
-      this.passwordError =
-        'Le mot de passe doit contenir au moins une majuscule.';
-      return;
+      return 'Le mot de passe doit contenir au moins une majuscule.';
     }
-
     if (!/\d/.test(this.password)) {
-      this.passwordError = 'Le mot de passe doit contenir au moins un chiffre.';
-      return;
+      return 'Le mot de passe doit contenir au moins un chiffre.';
     }
-
     if (!/[!@#$%^&*]/.test(this.password)) {
-      this.passwordError =
-        'Le mot de passe doit contenir au moins un caractère spécial.';
-      return;
+      return 'Le mot de passe doit contenir au moins un caractère spécial.';
     }
-
-    this.passwordError = ''; // Aucune erreur si toutes les conditions sont remplies.
-  }
-
-  isLoginValid(): boolean {
-    const minLength = 6;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Format email simple.
-    return this.username.length >= minLength || emailRegex.test(this.username);
+    return ''; // Si aucune condition n'échoue, pas d'erreur.
   }
 
   isPasswordValid(): boolean {
-    return (
-      this.password.length >= 8 &&
-      /[A-Z]/.test(this.password) &&
-      /\d/.test(this.password) &&
-      /[!@#$%^&*]/.test(this.password)
-    );
+    return !this.getPasswordError(); // Le champ est valide si aucune erreur n'est présente.
+  }
+
+  getLoginError(): string {
+    const minLength = 6;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!this.email) {
+      return '';
+    } else if (this.email.length < minLength || !emailRegex.test(this.email)) {
+      return loginErrorMessage;
+    } else {
+      return '';
+    }
+  }
+
+  isLoginValid(): boolean {
+    return !this.getLoginError(); // Le champ est valide si aucune erreur n'est présente.
   }
 
   // Méthode pour gérer la connexion.
 
   login() {
     if (!this.isLoginValid()) {
-      this.loginError =
-        'Le login doit être un email valide ou contenir au moins 6 caractères.';
+      this.loginError = loginErrorMessage;
       return;
     }
 
@@ -94,19 +74,20 @@ export class LoginComponent {
         'Le mot de passe doit contenir au moins 8 caractères, une majuscule, un chiffre et un caractère spécial.';
       return;
     }
-
-    const isEmail = this.username.includes('@');
-
-    const loginData = isEmail
-      ? { email: this.username, password: this.password }
-      : { username: this.username, password: this.password };
+    //const loginRequest = this.form.value as LoginRequest
+    const loginData = {
+      email: this.email,
+      password: this.password,
+    } as LoginRequest;
 
     this.authService
       .login(loginData)
       .pipe(
-        tap((response) => {
-          // Redirige l'utilisateur en cas de succès.
-          this.router.navigate(['/chat']);
+        tap((response: AuthSuccess) => {
+          // Stocke le token dans le localStorage.
+          localStorage.setItem('token', response.token);
+          // Redirige l'utilisateur vers la page "chat".
+          this.router.navigate(['/ycyw']); // Redirige vers la page par défaut de l'application.
         }),
         catchError((error) => {
           // Gère l'erreur et affiche un message.
@@ -118,12 +99,11 @@ export class LoginComponent {
   }
 
   openChat() {
-    if (!this.username) {
-      alert(
-        "Veuillez renseigner votre nom OU email avant de demander de l'aide."
-      );
+    if (!this.email) {
+      alert("Veuillez renseigner votre email avant de demander de l'aide.");
     } else {
-      this.router.navigate(['/chat']); // Redirige vers le chat.
+      // Redirige l'utilisateur vers la page "chat".
+      this.router.navigate(['/chat']);
     }
   }
 }
