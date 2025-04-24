@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { LoginRequest } from '../interfaces/LoginRequest.interface';
+import { AuthSuccess } from '../interfaces/authSuccess.interface';
 
 @Injectable({
   providedIn: 'root', // Fournit le service dans toute l'application.
@@ -11,10 +13,10 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   // Méthode pour effectuer la connexion.
-  login(data: {
-    email: string
-    password: string;
-  }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, data);
+  login(loginRequest: LoginRequest): Observable<AuthSuccess> {
+    return this.http.post<AuthSuccess>(
+      `https://localhost:8443/login`,
+      loginRequest
+    );
   }
 }

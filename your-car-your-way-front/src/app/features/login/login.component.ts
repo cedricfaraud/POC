@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs/internal/observable/of';
 import { catchError, tap } from 'rxjs/operators';
+import { AuthSuccess } from 'src/app/interfaces/authSuccess.interface';
+import { LoginRequest } from 'src/app/interfaces/LoginRequest.interface';
 import { AuthService } from 'src/app/services/auth.service';
 
 const loginErrorMessage =
@@ -72,15 +74,20 @@ export class LoginComponent {
         'Le mot de passe doit contenir au moins 8 caractères, une majuscule, un chiffre et un caractère spécial.';
       return;
     }
-
-    const loginData = { email: this.email, password: this.password };
+    //const loginRequest = this.form.value as LoginRequest
+    const loginData = {
+      email: this.email,
+      password: this.password,
+    } as LoginRequest;
 
     this.authService
       .login(loginData)
       .pipe(
-        tap((response) => {
-          // Redirige l'utilisateur en cas de succès.
-          this.router.navigate(['/chat']);
+        tap((response: AuthSuccess) => {
+          // Stocke le token dans le localStorage.
+          localStorage.setItem('token', response.token);
+          // Redirige l'utilisateur vers la page "chat".
+          this.router.navigate(['/ycyw']); // Redirige vers la page par défaut de l'application.
         }),
         catchError((error) => {
           // Gère l'erreur et affiche un message.
@@ -95,7 +102,8 @@ export class LoginComponent {
     if (!this.email) {
       alert("Veuillez renseigner votre email avant de demander de l'aide.");
     } else {
-      this.router.navigate(['/chat']); // Redirige vers le chat.
+      // Redirige l'utilisateur vers la page "chat".
+      this.router.navigate(['/chat']);
     }
   }
 }
