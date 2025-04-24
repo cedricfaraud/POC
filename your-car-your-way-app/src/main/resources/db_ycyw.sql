@@ -103,6 +103,26 @@ CREATE TABLE CustomerMessage (
     FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE
 );
 
+CREATE TABLE ChatMessage (
+    message_id INT AUTO_INCREMENT PRIMARY KEY,
+    chat_session_id INT NOT NULL,
+    sender_id INT NOT NULL,
+    message TEXT NOT NULL,
+    sent_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (chat_session_id) REFERENCES ChatSession(session_id)
+);
+
+CREATE TABLE ChatSession (
+    session_id INT AUTO_INCREMENT PRIMARY KEY,
+    client_id INT NOT NULL,
+    support_id INT, -- null tant qu'aucun support n'est assigné
+    start_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    end_date DATETIME,
+    status ENUM('WAITING', 'ONGOING', 'ENDED') DEFAULT 'WAITING',
+    FOREIGN KEY (client_id) REFERENCES User(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (support_id) REFERENCES User(user_id) ON DELETE SET NULL
+);
+
 -- Table: VehiculeOption
 CREATE TABLE VehiculeOption (
     option_id INT AUTO_INCREMENT PRIMARY KEY,

@@ -1,1 +1,51 @@
-<p>chat works!</p>
+<!-- src/app/components/chat/chat.component.html -->
+<div class="chat-container">
+  <!-- Zone de liste de clients (visible uniquement pour Support) -->
+  <div class="clients-list" *ngIf="loggedUser.role === 'SUPPORT'">
+    <mat-card>
+      <mat-card-title>Clients Connectés</mat-card-title>
+      <mat-list>
+        <mat-list-item
+          *ngFor="let client of connectedClients"
+          (click)="selectClient(client)"
+          [class.selected]="client === selectedClient"
+        >
+          {{ client }}
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+  </div>
+
+  <!-- Zone de conversation -->
+  <div class="chat-box">
+    <div class="messages-container">
+      <div
+        *ngFor="let msg of messages"
+        class="message"
+        [ngClass]="{
+          me: msg.sender === loggedUser.username,
+          other: msg.sender !== loggedUser.username
+        }"
+      >
+        <mat-card class="chat-message">
+          <mat-card-content>
+            <p>{{ msg.content }}</p>
+            <span class="timestamp">{{
+              msg.timestamp | date : "shortTime"
+            }}</span>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <!-- Zone d'envoi -->
+    <div class="input-container">
+      <mat-form-field appearance="fill" class="input-field">
+        <input matInput placeholder="Votre message" [(ngModel)]="newMessage" />
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="sendMessage()">
+        Envoyer
+      </button>
+    </div>
+  </div>
+</div>

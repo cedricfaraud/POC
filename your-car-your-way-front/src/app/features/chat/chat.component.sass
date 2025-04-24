@@ -1,0 +1,81 @@
+// Définition des variables
+$primary: #3f51b5
+$secondary: #f50057
+$border-color: #ccc
+$highlight-color: rgba(0, 0, 0, 0.1)
+$timestamp-font-size: 0.75rem
+$timestamp-opacity: 0.8
+
+.chat-container
+  display: flex
+  flex-direction: row
+  height: 100vh
+  padding: 10px
+  box-sizing: border-box
+
+  // Sidebar pour les supports
+  .clients-list
+    width: 250px
+    margin-right: 10px
+
+  // Zone de chat
+  .chat-box
+    flex: 1
+    display: flex
+    flex-direction: column
+    border: 1px solid $border-color
+    border-radius: 4px
+
+    // Liste des messages
+    .messages-container
+      flex: 1
+      padding: 10px
+      overflow-y: auto
+      display: flex
+      flex-direction: column
+
+    // Zone d'envoi
+    .input-container
+      display: flex
+      padding: 10px
+      border-top: 1px solid $border-color
+      align-items: center
+
+      .input-field
+        flex: 1
+        margin-right: 10px
+
+// Chaque message
+.message
+  display: flex
+  margin: 5px 0
+
+  &.me
+    justify-content: flex-end
+
+    .chat-message
+      max-width: 60%
+      padding: 5px
+      border-radius: 10px
+      background-color: $primary
+      color: white
+
+  &.other
+    justify-content: flex-start
+
+    .chat-message
+      max-width: 60%
+      padding: 5px
+      border-radius: 10px
+      background-color: $secondary
+      color: white
+
+.timestamp
+  display: block
+  font-size: $timestamp-font-size
+  opacity: $timestamp-opacity
+  text-align: right
+
+// Highlight de la sélection dans la liste des clients
+.selected
+  background-color: $highlight-color

@@ -24,6 +24,12 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "sass",
             "assets": ["src/favicon.ico", "src/assets"],
+            "allowedCommonJsDependencies": [
+              "sockjs-client",
+              "crypto-browserify",
+              "stream-browserify",
+              "process"
+            ],
             "styles": [
               "@angular/material/prebuilt-themes/purple-green.css",
               "src/styles.sass"
