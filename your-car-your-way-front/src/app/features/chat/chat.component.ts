@@ -14,6 +14,7 @@ export interface ChatMessage {
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.sass'],
+  standalone: false,
 })
 export class ChatComponent implements OnInit {
   // Simuler l'utilisateur logué ; en pratique, vous récupérerez ces infos depuis le service d'authentification

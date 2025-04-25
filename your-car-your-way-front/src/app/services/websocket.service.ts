@@ -1,65 +1,68 @@
-// websocket.service.ts
 import { Injectable } from '@angular/core';
-import { CompatClient, Stomp } from '@stomp/stompjs';
 import { Observable, Subject } from 'rxjs';
-import SockJS from 'sockjs-client';
 import { AuthService } from './auth.service'; // Assurez-vous que c'est le bon chemin vers votre AuthService
 
 @Injectable({
   providedIn: 'root',
 })
 export class WebsocketService {
-  private stompClient!: CompatClient;
+  private socket!: WebSocket;
   private messageSubject = new Subject<any>();
 
-  // URL de l'endpoint WebSocket (si vous utilisez HTTPS, préférez wss:)
-  private serverUrl = 'https://localhost:8443/ws';
+  // URL de l'endpoint WebSocket (remplacez par votre URL réelle)
+  private serverUrl = 'wss://localhost:8443/ws';
 
   constructor(private authService: AuthService) {
-    this._connect();
+    this.connect();
   }
 
-  private _connect(): void {
-    const socket = new SockJS(this.serverUrl);
-    this.stompClient = Stomp.over(() => socket);
-    this.stompClient.debug = () => {}; // Désactive le log de debug
+  private connect(): void {
+    // Ajoutez le token d'authentification si nécessaire
+    const token = localStorage.getItem('auth_token'); // ou récupéré via AuthService
+    const urlWithToken = token
+      ? `${this.serverUrl}?token=${token}`
+      : this.serverUrl;
 
-    // Récupérer le token stocké pour l'inclure dans les headers de connexion
-    const token = localStorage.getItem('auth_token'); // ou bien depuis AuthService
+    // Créez la connexion WebSocket
+    this.socket = new WebSocket(urlWithToken);
 
-    // Vous pouvez ajouter un header d'authentification
-    const headers = token ? { Authorization: 'Bearer ' + token } : {};
+    // Gestion des événements WebSocket
+    this.socket.onopen = () => {
+      console.log('WebSocket connection established.');
+    };
 
-    // Connexion au serveur avec les en-têtes
-    this.stompClient.connect(headers, (frame: any) => {
-      console.log('Connected: ' + frame);
-      this.stompClient.subscribe('/user/queue/messages', (message: any) => {
-        if (message.body) {
-          this.messageSubject.next(JSON.parse(message.body));
-        }
-      });
-    });
+    this.socket.onmessage = (event) => {
+      console.log('Message received from server:', event.data);
+      this.messageSubject.next(JSON.parse(event.data));
+    };
+
+    this.socket.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    this.socket.onclose = (event) => {
+      console.log('WebSocket connection closed:', event.reason);
+    };
   }
 
+  // Observable pour écouter les messages
   public onMessage(): Observable<any> {
     return this.messageSubject.asObservable();
   }
 
+  // Envoyer un message au serveur
   public sendMessage(message: any): void {
-    if (this.stompClient && this.stompClient.connected) {
-      this.stompClient.send(
-        '/app/chat.sendMessage',
-        {},
-        JSON.stringify(message)
-      );
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+      this.socket.send(JSON.stringify(message));
     } else {
-      console.error('STOMP client not connected');
+      console.error('WebSocket not connected. Message not sent.');
     }
   }
 
-  public addUser(user: any): void {
-    if (this.stompClient && this.stompClient.connected) {
-      this.stompClient.send('/app/chat.addUser', {}, JSON.stringify(user));
+  // Fermer la connexion WebSocket proprement
+  public disconnect(): void {
+    if (this.socket) {
+      this.socket.close();
     }
   }
 }

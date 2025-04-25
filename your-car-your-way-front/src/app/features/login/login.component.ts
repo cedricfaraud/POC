@@ -9,9 +9,10 @@ import { AuthService } from 'src/app/services/auth.service';
 const loginErrorMessage =
   'Le login doit être un email valide et contenir au moins 6 caractères.';
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html', // Fichier HTML séparé.
-  styleUrls: ['./login.component.sass'], // Fichier SCSS.
+    selector: 'app-login',
+    templateUrl: './login.component.html', // Fichier HTML séparé.
+    styleUrls: ['./login.component.sass'],
+    standalone: false
 })
 export class LoginComponent {
   email: string = ''; // email saisi par l'utilisateur.

@@ -10,19 +10,21 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^18.2.13",
+    "@angular/animations": "^19.2.8",
     "@angular/cdk": "^18.2.14",
-    "@angular/common": "^18.2.13",
-    "@angular/compiler": "^18.2.13",
-    "@angular/core": "^18.2.13",
+    "@angular/common": "^19.2.8",
+    "@angular/compiler": "^19.2.8",
+    "@angular/core": "^19.2.8",
     "@angular/flex-layout": "^15.0.0-beta.42",
-    "@angular/forms": "^18.2.13",
+    "@angular/forms": "^19.2.8",
     "@angular/material": "^18.2.14",
-    "@angular/platform-browser": "^18.2.13",
-    "@angular/platform-browser-dynamic": "^18.2.13",
-    "@angular/router": "^18.2.13",
+    "@angular/platform-browser": "^19.2.8",
+    "@angular/platform-browser-dynamic": "^19.2.8",
+    "@angular/router": "^19.2.8",
     "@stomp/stompjs": "^7.1.1",
+    "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.1",
+    "crypto-js": "^4.2.0",
     "https-browserify": "^1.0.0",
     "os-browserify": "^0.3.0",
     "process": "^0.11.10",
@@ -33,12 +35,13 @@
     "tslib": "^2.3.0",
     "vm-browserify": "^1.1.2",
     "your-car-your-way-front": "file:",
-    "zone.js": "~0.14.10"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.2.19",
-    "@angular/cli": "^18.2.19",
-    "@angular/compiler-cli": "^18.2.13",
+    "@angular-devkit/build-angular": "^19.2.9",
+    "@angular/cli": "^19.2.9",
+    "@angular/compiler-cli": "^19.2.8",
+    "@rollup/plugin-inject": "^5.0.5",
     "@types/jasmine": "~4.3.0",
     "@types/sockjs-client": "^1.5.4",
     "jasmine-core": "~4.6.0",
@@ -47,7 +50,9 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "5.4.5"
+    "rollup": "^4.40.0",
+    "typescript": "5.8.3",
+    "vite": "^6.3.3"
   },
   "browser": {
     "crypto": "crypto-browserify"

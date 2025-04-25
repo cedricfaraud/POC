@@ -12,7 +12,6 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
@@ -20,15 +19,8 @@
     "module": "ES2022",
     "useDefineForClassFields": false,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "lib": ["ES2022", "dom"],
-    "paths": {
-      "crypto": ["node_modules/crypto-browserify"],
-      "stream": ["node_modules/stream-browserify"],
-      "https": ["node_modules/https-browserify"],
-      "os": ["node_modules/os-browserify"],
-      "process": ["node_modules/process"]
-    }
+    "paths": {}
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -5,9 +5,6 @@
 import * as process from 'process';
 (window as any).process = process;
 
-import * as crypto from 'crypto-browserify';
-(window as any).crypto = crypto;
-
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 
