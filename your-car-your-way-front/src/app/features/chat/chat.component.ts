@@ -1,5 +1,6 @@
 // src/app/components/chat/chat.component.ts
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { WebsocketService } from 'src/app/services/websocket.service';
 
 export interface ChatMessage {
@@ -25,13 +26,17 @@ export class ChatComponent implements OnInit {
 
   // Message à envoyer
   newMessage: string = '';
+  email: string = '';
 
   // Pour les utilisateurs SUPPORT : liste des clients connectés
   connectedClients: string[] = [];
   // Le client sélectionné pour ouvrir la conversation
   selectedClient: string = '';
 
-  constructor(private websocketService: WebsocketService) {}
+  constructor(
+    private websocketService: WebsocketService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     // Si SUPPORT, simuler la récupération de clients connectés
@@ -39,21 +44,15 @@ export class ChatComponent implements OnInit {
       // Vous pourrez par la suite les récupérer via un appel REST ou une écoute via WebSocket
       this.connectedClients = ['Client1', 'Client2', 'Client3'];
     }
+    this.route.queryParams.subscribe((params) => {
+      this.email = params['email'];
+      // Vous pouvez maintenant utiliser cet email comme "sender" dans vos messages
+      console.log('Email reçu depuis Login :', this.email);
+    });
 
     // Abonnement aux messages entrants (depuis le service WebSocket)
     this.websocketService.onMessage().subscribe((msg: ChatMessage) => {
-      // Ici vous pouvez filtrer les messages selon le client sélectionné pour Support
-      // Pour un client, on affiche directement tous les messages
-      // Pour un support, vous afficherez seulement ceux correspondant à la conversation ouverte
-      if (
-        this.loggedUser.role !== 'SUPPORT' ||
-        (this.loggedUser.role === 'SUPPORT' &&
-          msg.sender === this.selectedClient) ||
-        (this.loggedUser.role === 'SUPPORT' &&
-          msg.receiver === this.selectedClient)
-      ) {
-        this.messages.push(msg);
-      }
+      this.messages.push(msg);
     });
   }
 
@@ -62,7 +61,7 @@ export class ChatComponent implements OnInit {
     if (this.newMessage.trim()) {
       const message: ChatMessage = {
         type: 'CHAT',
-        sender: this.loggedUser.username,
+        sender: this.email,
         // Pour un SUPPORT, le receiver est le client sélectionné
         receiver: this.loggedUser.role === 'SUPPORT' ? this.selectedClient : '',
         content: this.newMessage,
@@ -70,8 +69,6 @@ export class ChatComponent implements OnInit {
       };
       // Envoi via le service WebSocket
       this.websocketService.sendMessage(message);
-      // Affichage immédiat dans l'interface
-      this.messages.push(message);
       this.newMessage = '';
     }
   }

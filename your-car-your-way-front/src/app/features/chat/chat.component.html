@@ -18,13 +18,21 @@
 
   <!-- Zone de conversation -->
   <div class="chat-box">
+    <!-- Affichage de l'email connecté -->
+    <div class="user-email" *ngIf="email">
+      <mat-card>
+        <mat-card-content>
+          Vous êtes connecté en tant que : <strong>{{ email }}</strong>
+        </mat-card-content>
+      </mat-card>
+    </div>
     <div class="messages-container">
       <div
         *ngFor="let msg of messages"
         class="message"
         [ngClass]="{
-          me: msg.sender === loggedUser.username,
-          other: msg.sender !== loggedUser.username
+          me: msg.sender === email,
+          other: msg.sender !== email
         }"
       >
         <mat-card class="chat-message">
@@ -41,7 +49,12 @@
     <!-- Zone d'envoi -->
     <div class="input-container">
       <mat-form-field appearance="fill" class="input-field">
-        <input matInput placeholder="Votre message" [(ngModel)]="newMessage" />
+        <input
+          matInput
+          placeholder="Votre message"
+          [(ngModel)]="newMessage"
+          (keyup.enter)="sendMessage()"
+        />
       </mat-form-field>
       <button mat-raised-button color="primary" (click)="sendMessage()">
         Envoyer

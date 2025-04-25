@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { CompatClient, Stomp } from '@stomp/stompjs';
 import { Observable, Subject } from 'rxjs';
+import SockJS from 'sockjs-client';
 import { AuthService } from './auth.service'; // Assurez-vous que c'est le bon chemin vers votre AuthService
 
 @Injectable({
@@ -8,41 +10,40 @@ import { AuthService } from './auth.service'; // Assurez-vous que c'est le bon c
 export class WebsocketService {
   private socket!: WebSocket;
   private messageSubject = new Subject<any>();
-
+  private stompClient!: CompatClient;
   // URL de l'endpoint WebSocket (remplacez par votre URL réelle)
-  private serverUrl = 'wss://localhost:8443/ws';
+  private serverUrl = 'https://localhost:8443/ws';
 
   constructor(private authService: AuthService) {
     this.connect();
   }
 
   private connect(): void {
-    // Ajoutez le token d'authentification si nécessaire
-    const token = localStorage.getItem('auth_token'); // ou récupéré via AuthService
-    const urlWithToken = token
-      ? `${this.serverUrl}?token=${token}`
-      : this.serverUrl;
+    console.log('Connecting via SockJS/STOMP...');
 
-    // Créez la connexion WebSocket
-    this.socket = new WebSocket(urlWithToken);
+    // Crée la connexion SockJS
+    const socket = new SockJS(this.serverUrl);
 
-    // Gestion des événements WebSocket
-    this.socket.onopen = () => {
-      console.log('WebSocket connection established.');
-    };
+    // Crée le client STOMP en passant la fonction qui retourne le socket SockJS
+    this.stompClient = Stomp.over(() => socket);
+    this.stompClient.debug = () => {}; // Désactive le debug
 
-    this.socket.onmessage = (event) => {
-      console.log('Message received from server:', event.data);
-      this.messageSubject.next(JSON.parse(event.data));
-    };
+    // Ajoutez un header d'authentification si nécessaire
+    //const token = localStorage.getItem('auth_token');
+    const token =
+      'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWxpY2UuZHVwb250QGV4YW1wbGUuY29tIiwiZXhwIjoxNzQ2MDgzODczLCJpYXQiOjE3NDU0NzkwNzN9.D6CvxyR60qVKQMIIEGpRRJHdJ2q8ZnwJ-pnmpeJYdHM';
+    const headers = token ? { Authorization: 'Bearer ' + token } : {};
 
-    this.socket.onerror = (error) => {
-      console.error('WebSocket error:', error);
-    };
+    // Connectez-vous avec STOMP
+    this.stompClient.connect(headers, (frame: any) => {
+      console.log('Connected: ' + frame);
 
-    this.socket.onclose = (event) => {
-      console.log('WebSocket connection closed:', event.reason);
-    };
+      this.stompClient.subscribe('/topic/chat', (message: any) => {
+        if (message.body) {
+          this.messageSubject.next(JSON.parse(message.body));
+        }
+      });
+    });
   }
 
   // Observable pour écouter les messages
@@ -52,17 +53,26 @@ export class WebsocketService {
 
   // Envoyer un message au serveur
   public sendMessage(message: any): void {
-    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      this.socket.send(JSON.stringify(message));
+    console.log("Tentative d'envoi du message : ", message);
+    if (this.stompClient && this.stompClient.connected) {
+      // Utilise l'API STOMP pour envoyer le message à un endpoint (exemple)
+      this.stompClient.send(
+        '/app/chat.sendMessage',
+        {},
+        JSON.stringify(message)
+      );
+      console.log('Message envoyé via STOMP');
     } else {
-      console.error('WebSocket not connected. Message not sent.');
+      console.error('STOMP client not connected. Message not sent.');
     }
   }
 
   // Fermer la connexion WebSocket proprement
   public disconnect(): void {
-    if (this.socket) {
-      this.socket.close();
+    if (this.stompClient) {
+      this.stompClient.disconnect(() => {
+        console.log('STOMP client disconnected.');
+      });
     }
   }
 }
