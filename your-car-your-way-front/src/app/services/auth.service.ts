@@ -8,7 +8,7 @@ import { AuthSuccess } from '../interfaces/authSuccess.interface';
   providedIn: 'root', // Fournit le service dans toute l'application.
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3007'; // Lien vers votre backend Spring Boot.
+  //private apiUrl = 'http://localhost:3007'; // Lien vers votre backend Spring Boot.
 
   constructor(private http: HttpClient) {}
 

@@ -11,7 +11,8 @@ const loginErrorMessage =
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html', // Fichier HTML séparé.
-  styleUrls: ['./login.component.sass'], // Fichier SCSS.
+  styleUrls: ['./login.component.sass'],
+  standalone: false,
 })
 export class LoginComponent {
   email: string = ''; // email saisi par l'utilisateur.
@@ -103,7 +104,7 @@ export class LoginComponent {
       alert("Veuillez renseigner votre email avant de demander de l'aide.");
     } else {
       // Redirige l'utilisateur vers la page "chat".
-      this.router.navigate(['/chat']);
+      this.router.navigate(['/chat'], { queryParams: { email: this.email } });
     }
   }
 }
