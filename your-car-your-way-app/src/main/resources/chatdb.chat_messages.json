@@ -1,0 +1,182 @@
+[{
+  "_id": {
+    "$oid": "680bb13d2bb3302598aafb3c"
+  },
+  "sender": "alice.dupont@example.com",
+  "receiver": "",
+  "content": "test",
+  "timestamp": {
+    "$date": "2025-04-25T15:58:52.808Z"
+  },
+  "chatSessionId": "j2tlwlno",
+  "_class": "com.ycyw.your_car_your_way_app.model.ChatMessageDocument"
+},
+{
+  "_id": {
+    "$oid": "680bb26b2bb3302598aafb3d"
+  },
+  "sender": "alice.dupont@example.com",
+  "receiver": "",
+  "content": "blabla",
+  "timestamp": {
+    "$date": "2025-04-25T16:03:55.071Z"
+  },
+  "chatSessionId": "j2tlwlno",
+  "_class": "com.ycyw.your_car_your_way_app.model.ChatMessageDocument"
+},
+{
+  "_id": {
+    "$oid": "680bb4942bb3302598aafb3e"
+  },
+  "sender": "alice.dupont@example.com",
+  "receiver": "",
+  "content": "tezss",
+  "timestamp": {
+    "$date": "2025-04-25T16:13:08.382Z"
+  },
+  "chatSessionId": "gmrxitch",
+  "_class": "com.ycyw.your_car_your_way_app.model.ChatMessageDocument"
+},
+{
+  "_id": {
+    "$oid": "680c0bca413c8a4216762c6c"
+  },
+  "sender": "bob.martin@example.com",
+  "receiver": "",
+  "content": "test",
+  "timestamp": {
+    "$date": "2025-04-25T22:25:13.664Z"
+  },
+  "chatSessionId": "5mfst3ru",
+  "_class": "com.ycyw.your_car_your_way_app.model.ChatMessageDocument"
+},
+{
+  "_id": {
+    "$oid": "680c0bdc413c8a4216762c6d"
+  },
+  "sender": "alice.dupont@example.com",
+  "receiver": "",
+  "content": "ceta fer",
+  "timestamp": {
+    "$date": "2025-04-25T22:25:32.917Z"
+  },
+  "chatSessionId": "ew3tblwh",
+  "_class": "com.ycyw.your_car_your_way_app.model.ChatMessageDocument"
+},
+{
+  "_id": {
+    "$oid": "680c0c72413c8a4216762c6e"
+  },
+  "sender": "alice.dupont@example.com",
+  "receiver": "",
+  "content": "1321q1dsf",
+  "timestamp": {
+    "$date": "2025-04-25T22:28:02.365Z"
+  },
+  "chatSessionId": "uhnhuvfs",
+  "_class": "com.ycyw.your_car_your_way_app.model.ChatMessageDocument"
+},
+{
+  "_id": {
+    "$oid": "680c0c7e413c8a4216762c6f"
+  },
+  "sender": "bob.martin@example.com",
+  "receiver": "",
+  "content": "qsgsqgfd",
+  "timestamp": {
+    "$date": "2025-04-25T22:28:14.595Z"
+  },
+  "chatSessionId": "5mfst3ru",
+  "_class": "com.ycyw.your_car_your_way_app.model.ChatMessageDocument"
+},
+{
+  "_id": {
+    "$oid": "680c0f5f413c8a4216762c70"
+  },
+  "sender": "bob.martin@example.com",
+  "receiver": "",
+  "content": "message 1",
+  "timestamp": {
+    "$date": "2025-04-25T22:40:31.614Z"
+  },
+  "chatSessionId": "qmdw4l01",
+  "_class": "com.ycyw.your_car_your_way_app.model.ChatMessageDocument"
+},
+{
+  "_id": {
+    "$oid": "680c0f6e413c8a4216762c71"
+  },
+  "sender": "alice.dupont@example.com",
+  "receiver": "",
+  "content": "message 2",
+  "timestamp": {
+    "$date": "2025-04-25T22:40:46.013Z"
+  },
+  "chatSessionId": "t4cx3ots",
+  "_class": "com.ycyw.your_car_your_way_app.model.ChatMessageDocument"
+},
+{
+  "_id": {
+    "$oid": "680c1522413c8a4216762c72"
+  },
+  "sender": "bob.martin@example.com",
+  "receiver": "",
+  "content": "test bob",
+  "timestamp": {
+    "$date": "2025-04-25T23:05:05.998Z"
+  },
+  "chatSessionId": "jj3z1yyh",
+  "_class": "com.ycyw.your_car_your_way_app.model.ChatMessageDocument"
+},
+{
+  "_id": {
+    "$oid": "680c152b413c8a4216762c73"
+  },
+  "sender": "alice.dupont@example.com",
+  "receiver": "",
+  "content": "test alice",
+  "timestamp": {
+    "$date": "2025-04-25T23:05:15.565Z"
+  },
+  "chatSessionId": "siijdf1z",
+  "_class": "com.ycyw.your_car_your_way_app.model.ChatMessageDocument"
+},
+{
+  "_id": {
+    "$oid": "680c15f1413c8a4216762c74"
+  },
+  "sender": "alice.dupont@example.com",
+  "receiver": "",
+  "content": "J'ai beaucoup de choses à dire et c'est très important ue je les écrives pour voir ce que ça donne à l'affichage sur ma vue",
+  "timestamp": {
+    "$date": "2025-04-25T23:08:33.949Z"
+  },
+  "chatSessionId": "siijdf1z",
+  "_class": "com.ycyw.your_car_your_way_app.model.ChatMessageDocument"
+},
+{
+  "_id": {
+    "$oid": "680c1616413c8a4216762c75"
+  },
+  "sender": "bob.martin@example.com",
+  "receiver": "",
+  "content": "Ce que tu as à me dire est très intéréssant, je vais essayer d'avoir un message qui déborde de la fen^tre, je vais essayer d'avoir un message qui déborde de la fen^tre, je vais essayer d'avoir un message qui déborde de la fen^tre, je vais essayer d'avoir un message qui déborde de la fen^tre, je vais essayer d'avoir un message qui déborde de la fen^tre, je vais essayer d'avoir un message qui déborde de la fen^tre",
+  "timestamp": {
+    "$date": "2025-04-25T23:09:10.510Z"
+  },
+  "chatSessionId": "jj3z1yyh",
+  "_class": "com.ycyw.your_car_your_way_app.model.ChatMessageDocument"
+},
+{
+  "_id": {
+    "$oid": "680c1620413c8a4216762c76"
+  },
+  "sender": "alice.dupont@example.com",
+  "receiver": "",
+  "content": "Ok, c'est très bien",
+  "timestamp": {
+    "$date": "2025-04-25T23:09:20.480Z"
+  },
+  "chatSessionId": "siijdf1z",
+  "_class": "com.ycyw.your_car_your_way_app.model.ChatMessageDocument"
+}]
